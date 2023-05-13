@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        .container a {
+            text-decoration: none;
+            color: white;
+        }
+
+        .left {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .search {
+            display: flex;
+        }
+    </style>
+</head>
+
+<body>
+    <div th:replace="~{fragments/header :: header}">&nbsp;</div>
+
+    <div class="top">
+        <div class="bar d-flex justify-content-evenly">
+            <form th:action="@{/employees}">
+                <div class="search">
+                    <input th:name="search" method="GET" type="text" class="form-control" style="margin-right: 10px;">
+                    <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
+
+        <div class="left dropdown">
+            Show
+            <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Default
+            </button>
+            <ul class="dropdown-menu">
+                <li>10</li>
+                <li>20</li>
+                <li>30</li>
+            </ul> entries
+        </div>
+        <div class="right dropdown">
+            Sort by
+            <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Default
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/employees?sort=last-name-asc">Last name (A-Z)</a></li>
+                <li><a class="dropdown-item" href="/employees?sort=last-name-desc">Last name (Z-A)</a></li>
+                <li><a class="dropdown-item" href="/employees?sort=department">Department</a></li>
+            </ul>
+        </div>
+    </div>
+    </div>
+    <hr>
+    <div class="container">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Full Name</th>
+                    <th>Gender</th>
+                    <th>Date of Birth</th>
+                    <th>Department</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="employee, rowStat: ${employees}">
+                    <td th:text="${rowStat.count}"></td>
+                    <td th:text="${employee.firstName} + ' ' + ${employee.lastName}"></td>
+                    <!-- <td th:text="${#strings.toUpperCase(#strings.substring(employee.gender, 0, 1)) +
+                        #strings.toLowerCase(#strings.substring(employee.gender, 1))}">
+                    </td> -->
+                    <td>
+                        <div th:switch="${employee.gender.name()}">
+                            <p th:case="'FEMALE'">Female</p>
+                            <p th:case="'NON_BINARY'">Non-binary</p>
+                            <p th:case="'MALE'">Male</p>
+                            <p th:case="*">Unknown</p>
+                        </div>
+                    </td>
+                    <td th:text="${employee.dateOfBirth}"></td>
+                    <td th:text="${employee.department.name}"></td>
+                    <td>
+                        <button class="btn btn-sm btn-primary"><a
+                                th:href="@{/employees/{id}(id=${employee.id})}">Details</a></button>
+                        <!--                        <button class="btn btn-sm btn-danger"><a-->
+                        <!--                                th:href="@{/employees/delete/{id}(id=${employee.id})}">Delete</a></button>-->
+                    </td>
+                </tr>
+                <!-- More rows can be added dynamically with JavaScript -->
+            </tbody>
+        </table>
+    </div>
+    <hr>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item disabled">
+                <a class="page-link">Previous</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#">Next</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>
