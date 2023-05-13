@@ -13,14 +13,14 @@ The Employee Management System is a simple CRUD application built using Spring B
 
 ## Features:
 1. Admin Dashboard:
+- Authenticate
 - View all employees and their details
 - Manage departments and their details
 - Add, edit, and delete employee and department records
 2. User Dashboard:
-- View personal tasks and information
-- Search employees and departments
+- Authenticate
+- View personal tasks and personal information
 - Pagination for displaying a limited number of records per page
-- Sorting of employee and department records
 
 ## Frameworks Used:
 - Spring Boot: Provides a framework for building Java applications with minimal configuration.
